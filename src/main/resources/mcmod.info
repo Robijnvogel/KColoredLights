@@ -1,0 +1,16 @@
+[
+{
+  "modid": "KColoredLights",
+  "name": "Colored Lights Mod / API",
+  "description": "A mod and API for enabling colored lighting in Minecraft",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Kovu"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
