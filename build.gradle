@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.7.10-0.001-ABLUETEST"
+version = "1.7.10-0.001-AGREENTEST"
 group= "kovu.coloredlights" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "KColoredLights"
 
