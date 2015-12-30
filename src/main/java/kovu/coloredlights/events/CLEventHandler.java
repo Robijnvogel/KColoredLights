@@ -13,7 +13,7 @@ public class CLEventHandler
 {
 	// For ambient, diffuse, specular (that I know), the last float value is the inverse strength, that is 1 is (none / low)? and 0 is all
 	private float[] lightPosition;
-	private float[] light_ambient = {0.4f, 0.4f, 0.4f, 0.0f};
+	private float[] light_ambient = {0.0f, 0.0f, 1.0f, 0.0f}; // .4 .4 .4 .0 loos like MC normally
 	private float[] light_diffuse = {0.0f, 0.0f, 0.0f, 0.0f};
 	private float[] light_specular = {0.0f, 0.0f, 0.0f, 0.0f};
 	private float[] light_spot_direction = {0.0f, 1.0f, 0.0f, 0.0f};
