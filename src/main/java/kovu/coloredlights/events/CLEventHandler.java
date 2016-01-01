@@ -12,11 +12,15 @@ import static org.lwjgl.opengl.GL12.*;
 public class CLEventHandler 
 {
 	// For ambient, diffuse, specular (that I know), the last float value is the inverse strength, that is 1 is (none / low)? and 0 is all
-	private float[] lightPosition;
-	private float[] light_ambient = {1.0f, 0.0f, 0.0f, 0.0f}; // .4 .4 .4 .0 loos like MC normally, RGB
-	private float[] light_diffuse = {0.0f, 0.0f, 0.0f, 0.0f};
-	private float[] light_specular = {0.0f, 0.0f, 0.0f, 0.0f};
-	private float[] light_spot_direction = {0.0f, 1.0f, 0.0f, 0.0f};
+	private float[] lightPosition0;
+	public  float[] light_ambient0 = {0.4f, 0.4f, 0.4f, 0.0f}; // .4 .4 .4 .0 loos like MC normally, RGB
+	private float[] light_diffuse0 = {0.0f, 0.0f, 0.0f, 0.0f};
+	private float[] light_specular0 = {0.0f, 0.0f, 0.0f, 0.0f};
+	
+	private float[] light_ambient1 = {0.0f, 1.0f, 0.0f, 0.0f};
+	private float[] light_specular1 = {1.0f, 1.0f, 1.0f, 1.0f};
+	private float[] light_specref1 = {1.0f, 1.0f, 1.0f, 1.0f};
+	private float[] light_spot_direction = {0.0f, 0.0f, -1.0f, 0.0f};
 		
 	@SubscribeEvent()
 	public void onWorldRender(RenderWorldEvent.Pre event)
@@ -26,29 +30,33 @@ public class CLEventHandler
 	
 	private void render() 
 	{
-		glPushMatrix();
+		//glPushMatrix();
 		
-		glDisable(GL_TEXTURE_2D);
+    	glEnable(GL_LIGHTING);
 	   	glShadeModel(GL_SMOOTH);
     	glEnable(GL_DEPTH_TEST);
-    	
-    	glEnable(GL_LIGHTING);
-    	glEnable(GL_LIGHT0);
     	glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
-    	glEnable(GL_COLOR_MATERIAL);
-
+    	
     	glEnable(GL_CULL_FACE);
-    	glColorMaterial(GL_FRONT, GL_DIFFUSE);
 				
-		lightPosition = new float[]{(float)Minecraft.getMinecraft().thePlayer.getPlayerCoordinates().posX, (float)Minecraft.getMinecraft().thePlayer.getPlayerCoordinates().posY, (float)Minecraft.getMinecraft().thePlayer.getPlayerCoordinates().posZ, 1.0f};
+		lightPosition0 = new float[]{(float)Minecraft.getMinecraft().thePlayer.getPlayerCoordinates().posX + 2, (float)Minecraft.getMinecraft().thePlayer.getPlayerCoordinates().posY + 2, (float)Minecraft.getMinecraft().thePlayer.getPlayerCoordinates().posZ + 2, 1.0f};		
 		
-		glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(lightPosition));
-		//glLight(GL_LIGHT0, GL_SPOT_DIRECTION, BufferTools.asFlippedFloatBuffer(light_spot_direction));
-		glLight(GL_LIGHT0, GL_AMBIENT, BufferTools.asFlippedFloatBuffer(light_ambient));
-		glLight(GL_LIGHT0, GL_DIFFUSE, BufferTools.asFlippedFloatBuffer(light_diffuse));
-		glLight(GL_LIGHT0, GL_SPECULAR, BufferTools.asFlippedFloatBuffer(light_specular));
-		glEnable(GL_TEXTURE_2D);
-		
-		glPopMatrix();
+		// LIGHT 0
+		glLight(GL_LIGHT0, GL_POSITION, BufferTools.asFlippedFloatBuffer(lightPosition0));
+		glLight(GL_LIGHT0, GL_AMBIENT, BufferTools.asFlippedFloatBuffer(light_ambient0));
+		glLight(GL_LIGHT0, GL_DIFFUSE, BufferTools.asFlippedFloatBuffer(light_diffuse0));
+		glLight(GL_LIGHT0, GL_SPECULAR, BufferTools.asFlippedFloatBuffer(light_specular0));
+				
+		// Light 1
+		glLight(GL_LIGHT1, GL_DIFFUSE, BufferTools.asFlippedFloatBuffer(light_ambient1));
+		glLight(GL_LIGHT1, GL_SPECULAR, BufferTools.asFlippedFloatBuffer(light_specular1));
+		glLight(GL_LIGHT1, GL_POSITION, BufferTools.asFlippedFloatBuffer(lightPosition0));
+		glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 60.0f);
+		glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 100.0f);
+
+		glEnable(GL_LIGHT0);
+    	glEnable(GL_LIGHT1);
+
+		//glPopMatrix();
 	}
 }

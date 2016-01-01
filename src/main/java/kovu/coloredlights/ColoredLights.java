@@ -1,9 +1,12 @@
 package kovu.coloredlights;
 
+import kovu.coloredlights.block.BlueBlock;
 import kovu.coloredlights.events.CLEventHandler;
+import kovu.coloredlights.proxy.ClientProxy;
 import kovu.coloredlights.proxy.CommonProxy;
 import kovu.coloredlights.utils.BufferTools;
 import kovu.coloredlights.utils.Constants;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.common.MinecraftForge;
@@ -13,6 +16,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -20,6 +24,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class ColoredLights
 {		
 	public static LightEngine lightengine;
+	public static BlueBlock blueBlock = new BlueBlock(Material.anvil);
 	
 	@SidedProxy(clientSide = Constants.PROXY_LOCATION + ".ClientProxy", serverSide = Constants.PROXY_LOCATION + ".CommonProxy")
 	public static CommonProxy proxy;
@@ -36,6 +41,9 @@ public class ColoredLights
 		setUpLighting();
 
     	MinecraftForge.EVENT_BUS.register(new CLEventHandler());
+    	ClientProxy.initRenderers();
+    	
+    	GameRegistry.registerBlock(blueBlock, "blueBlock");
     }
     
     @EventHandler
